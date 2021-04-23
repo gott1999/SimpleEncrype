@@ -1,7 +1,6 @@
 package edu.nytd.xww;
 
-import edu.nytd.xww.encryption.EncryptMethod;
-import edu.nytd.xww.encryption.implment.RsaEncryption;
+import edu.nytd.xww.encryption.implment.DesEncryption;
 
 /**
  * @author Yanyu
@@ -9,8 +8,6 @@ import edu.nytd.xww.encryption.implment.RsaEncryption;
  */
 public class Main {
     public static void main(String[] args) {
-        EncryptMethod rsa = new RsaEncryption();
-
 
     }
 }

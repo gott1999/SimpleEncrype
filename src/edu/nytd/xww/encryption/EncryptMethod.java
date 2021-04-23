@@ -25,4 +25,6 @@ public interface EncryptMethod {
      */
     private String decrypt(String code){ return null; }
 
+
+
 }

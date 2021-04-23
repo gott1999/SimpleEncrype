@@ -6,9 +6,11 @@ import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Base64;
+
 /**
  * @author Yanyu
  * @date 2021年4月22日
+ * RSA算法 + Base64
  */
 public class RsaEncryption implements EncryptMethod {
 
@@ -112,6 +114,7 @@ public class RsaEncryption implements EncryptMethod {
                 return null;
         }
     }
+
 
     public Key getPublicKey() {
         return keyPair.getPublic();

@@ -1,0 +1,3 @@
+- This is a encryption application for education.
+- All of you can use by legal.
+- There's question or advice? mail to 'gott1999@fomail.com'.
