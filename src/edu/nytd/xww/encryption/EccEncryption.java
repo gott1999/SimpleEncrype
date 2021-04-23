@@ -1,13 +1,11 @@
-package edu.nytd.xww.encryption.implment;
-
-import edu.nytd.xww.encryption.EncryptMethod;
+package edu.nytd.xww.encryption;
 
 import java.security.KeyPair;
 
 /**
  * @author Yanyu
  */
-public class EccEncryption implements EncryptMethod {
+public class EccEncryption {
 
     /**
      * 方法号：加密

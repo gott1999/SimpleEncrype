@@ -1,7 +1,4 @@
-package edu.nytd.xww.encryption.implment;
-
-import edu.nytd.xww.encryption.EncryptMethod;
-import edu.nytd.xww.utils.FormChanger;
+package edu.nytd.xww.encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -15,7 +12,7 @@ import java.util.Base64;
  * @date 2021年4月23日
  * 兼容DES,2DES,3DES + Base64
  */
-public class DesEncryption implements EncryptMethod {
+public class DesEncryption {
 
     /**
      * 方法号：加密
@@ -75,7 +72,6 @@ public class DesEncryption implements EncryptMethod {
             KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm);
             keyGenerator.init(56, new SecureRandom());
             key = keyGenerator.generateKey();
-            System.out.println(key.toString());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -91,7 +87,7 @@ public class DesEncryption implements EncryptMethod {
             Cipher cipher = Cipher.getInstance(algorithm);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] bytes = Base64.getEncoder().encode(cipher.doFinal(code.getBytes(StandardCharsets.UTF_8)));
-            return FormChanger.byteToString(bytes);
+            return new String(bytes);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -107,7 +103,8 @@ public class DesEncryption implements EncryptMethod {
         try {
             Cipher cipher = Cipher.getInstance(algorithm);
             cipher.init(Cipher.DECRYPT_MODE, key);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(code.getBytes())));
+            byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(code.getBytes()));
+            return new String(bytes);
         }catch (Exception e){
             e.printStackTrace();
         }

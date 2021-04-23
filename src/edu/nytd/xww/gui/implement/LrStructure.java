@@ -19,6 +19,7 @@ public class LrStructure implements MainGui {
      */
     private void init(){
         panel = new JPanel(new BorderLayout());
-
     }
+
+
 }

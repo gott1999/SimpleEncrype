@@ -1,6 +1,4 @@
-package edu.nytd.xww.encryption.implment;
-
-import edu.nytd.xww.encryption.EncryptMethod;
+package edu.nytd.xww.encryption;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +10,7 @@ import java.util.Base64;
  * @date 2021年4月22日
  * RSA算法 + Base64
  */
-public class RsaEncryption implements EncryptMethod {
+public class RsaEncryption {
 
     /**
      * 方法号：加密
@@ -88,8 +86,8 @@ public class RsaEncryption implements EncryptMethod {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE,keyPair.getPrivate());
-            byte[] bytes = Base64.getDecoder().decode(code);
-            return new String(cipher.doFinal(bytes));
+            byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(code));
+            return new String(bytes);
         }catch (Exception e){
             e.printStackTrace();
         }
