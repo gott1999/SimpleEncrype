@@ -111,7 +111,7 @@ public class KeychainFactory {
             KeyGenerator keyGenerator = KeyGenerator.getInstance(algorithm);
             keyGenerator.init(length, new SecureRandom());
             Key key = keyGenerator.generateKey();
-            System.out.println(algorithm + "密钥:" + new String(Base64.getEncoder().encode(key.getEncoded())));
+            System.out.println("生成的密钥:" + new String(Base64.getEncoder().encode(key.getEncoded())));
             // 构造一个新的钥匙串，只有对称加密的密钥
             return new Keychain.Builder()
                     .setKey(key)
@@ -134,6 +134,8 @@ public class KeychainFactory {
             keyGenerator.initialize(length,new SecureRandom());
             KeyPair keyPair = keyGenerator.generateKeyPair();
             // 构造一个新的钥匙串，只有自己的公私钥
+            System.out.println("生成的公钥:" + new String(Base64.getEncoder().encode(keyPair.getPublic().getEncoded())));
+            System.out.println("生成的私钥:" + new String(Base64.getEncoder().encode(keyPair.getPrivate().getEncoded())));
             return new Keychain.Builder()
                     .setPrivateKeyOfMine(keyPair.getPrivate())
                     .setPublicKeyOfMine(keyPair.getPublic())
