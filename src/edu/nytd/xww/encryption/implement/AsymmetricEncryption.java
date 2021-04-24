@@ -1,9 +1,11 @@
 package edu.nytd.xww.encryption.implement;
 
 import edu.nytd.xww.encryption.EncryptionMethod;
+import edu.nytd.xww.pojo.Keychain;
 
 import javax.crypto.Cipher;
 import java.security.*;
+import java.util.Base64;
 
 /**
  * @author Yanyu
@@ -12,48 +14,12 @@ import java.security.*;
  */
 public class AsymmetricEncryption implements EncryptionMethod {
 
-    /**
-     * 密钥对
-     */
-    private KeyPair keyPair;
-
-    /**
-     * 运算器
-     */
-    private Cipher cipher;
-
-    /**
-     * 默认构造方法
-     * 生成1024位的密钥对
-     */
-    public AsymmetricEncryption(String algorithm, int length) {
-        fixSign(algorithm);
-        createKey(algorithm, length);
-    }
-
-    public void fixSign(String algorithm) {
-        try {
-            cipher = Cipher.getInstance(algorithm);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     @Override
-    public void createKey(String algorithm, int length){
-        try{
-            KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance(algorithm);
-            keyGenerator.initialize(length,new SecureRandom());
-            keyPair = keyGenerator.generateKeyPair();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public byte[] encrypt(byte[] code){
+    public byte[] encrypt(byte[] code, Keychain keychain){
         try {
-            cipher.init(Cipher.ENCRYPT_MODE,keyPair.getPublic());
+            PrivateKey privateKey = keychain.getPrivateKeyOfMine();
+            Cipher cipher = Cipher.getInstance(privateKey.getAlgorithm());
+            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             return cipher.doFinal(code);
         }catch (Exception e){
             e.printStackTrace();
@@ -62,9 +28,11 @@ public class AsymmetricEncryption implements EncryptionMethod {
     }
 
     @Override
-    public byte[] decrypt(byte[] code){
+    public byte[] decrypt(byte[] code, Keychain keychain){
         try {
-            cipher.init(Cipher.DECRYPT_MODE,keyPair.getPrivate());
+            PublicKey publicKey = keychain.getPublicKeyOfOpponent();
+            Cipher cipher = Cipher.getInstance(publicKey.getAlgorithm());
+            cipher.init(Cipher.DECRYPT_MODE, publicKey);
             return cipher.doFinal(code);
         }catch (Exception e){
             e.printStackTrace();
@@ -72,13 +40,4 @@ public class AsymmetricEncryption implements EncryptionMethod {
         return null;
     }
 
-
-
-    public Key getPublicKey() {
-        return keyPair.getPublic();
-    }
-
-    public Key getPrivateKey() {
-        return keyPair.getPrivate();
-    }
 }

@@ -1,6 +1,8 @@
 package edu.nytd.xww;
 
 import edu.nytd.xww.factories.CodeFactory;
+import edu.nytd.xww.factories.KeychainFactory;
+import edu.nytd.xww.pojo.Keychain;
 
 /**
  * @author Yanyu
@@ -9,14 +11,18 @@ import edu.nytd.xww.factories.CodeFactory;
 public class Main {
     public static void main(String[] args) {
         // 明文
-        String publicCode = "HelloWorld";
+        String publicCode = "HelloWorld!";
         String enCode;
         String deCode;
 
-        CodeFactory codeFactory = new CodeFactory(CodeFactory.EC);
-        enCode = codeFactory.encrypt(publicCode);
-        deCode = codeFactory.decrypt(enCode);
+        Keychain keychain = KeychainFactory.createKeychain(KeychainFactory.DES,56);
+        CodeFactory codeFactory = new CodeFactory(CodeFactory.DES);
+        enCode = codeFactory.encrypt(publicCode,keychain);
+        deCode = codeFactory.decrypt(enCode,keychain);
+
+        System.out.println("原文:" + enCode);
         System.out.println("密文:" + enCode);
-        System.out.println("解密:" + deCode);
+        System.out.println("明文:" + deCode);
+
     }
 }
