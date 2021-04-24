@@ -111,7 +111,7 @@ public class BorderFrame extends JFrame{
             // 发送检查
             if ((url == null || "".equals(url) || text == null || "".equals(text))){
                 textArea.append("输入内容不要为空！\n");
-            }else if (EventController.sendMessage(message)){
+            }else if (sendMessage(message)){
                 inputArea.setText("");
                 textArea.append("你对 "+ url +" 说:" + text +"\n");
             }else {
@@ -122,6 +122,11 @@ public class BorderFrame extends JFrame{
 
         // 添加到总面板
         jPanel.add(temp,BorderLayout.SOUTH);
+    }
+
+    private boolean sendMessage(Message message) {
+
+        return true;
     }
 
     /**

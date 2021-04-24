@@ -1,6 +1,6 @@
 package edu.nytd.xww;
 
-import edu.nytd.xww.helpers.CodeHelper;
+import edu.nytd.xww.factories.CodeFactory;
 
 /**
  * @author Yanyu
@@ -13,9 +13,9 @@ public class Main {
         String enCode;
         String deCode;
 
-        CodeHelper codeHelper = new CodeHelper("DES");
-        enCode = codeHelper.encrypt(publicCode);
-        deCode = codeHelper.decrypt(enCode);
+        CodeFactory codeFactory = new CodeFactory(CodeFactory.EC);
+        enCode = codeFactory.encrypt(publicCode);
+        deCode = codeFactory.decrypt(enCode);
         System.out.println("密文:" + enCode);
         System.out.println("解密:" + deCode);
     }

@@ -9,8 +9,11 @@ public interface EncryptionMethod {
 
     /**
      * 生成密钥
+     * @param algorithm 密钥算法
+     * @param length 密钥长度
      */
-    void createKey();
+    void createKey(String algorithm, int length);
+
     /**
      * 加密
      * @param code 明文
@@ -23,7 +26,7 @@ public interface EncryptionMethod {
      * 解密
      * @param code 密文
      * @return 明文
-     * 确保输入的没有别的加密或者base64
+     * 确保输入的没有别的加密或者编码
      */
      byte[] decrypt(byte[] code);
 

@@ -10,12 +10,7 @@ import java.security.*;
  * @date 2021年4月22日
  * RSA加密
  */
-public class RsaEncryption implements EncryptionMethod {
-
-    /**
-     * 算法
-     */
-    private static final String ALGORITHM = "RSA";
+public class AsymmetricEncryption implements EncryptionMethod {
 
     /**
      * 密钥对
@@ -23,18 +18,32 @@ public class RsaEncryption implements EncryptionMethod {
     private KeyPair keyPair;
 
     /**
+     * 运算器
+     */
+    private Cipher cipher;
+
+    /**
      * 默认构造方法
      * 生成1024位的密钥对
      */
-    public RsaEncryption() {
-        createKey();
+    public AsymmetricEncryption(String algorithm, int length) {
+        fixSign(algorithm);
+        createKey(algorithm, length);
+    }
+
+    public void fixSign(String algorithm) {
+        try {
+            cipher = Cipher.getInstance(algorithm);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void createKey(){
+    public void createKey(String algorithm, int length){
         try{
-            KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-            keyGenerator.initialize(1024,new SecureRandom());
+            KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance(algorithm);
+            keyGenerator.initialize(length,new SecureRandom());
             keyPair = keyGenerator.generateKeyPair();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -44,7 +53,6 @@ public class RsaEncryption implements EncryptionMethod {
     @Override
     public byte[] encrypt(byte[] code){
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE,keyPair.getPublic());
             return cipher.doFinal(code);
         }catch (Exception e){
@@ -56,7 +64,6 @@ public class RsaEncryption implements EncryptionMethod {
     @Override
     public byte[] decrypt(byte[] code){
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE,keyPair.getPrivate());
             return cipher.doFinal(code);
         }catch (Exception e){
@@ -64,6 +71,8 @@ public class RsaEncryption implements EncryptionMethod {
         }
         return null;
     }
+
+
 
     public Key getPublicKey() {
         return keyPair.getPublic();
