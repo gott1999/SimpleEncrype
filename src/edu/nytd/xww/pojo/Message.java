@@ -1,4 +1,4 @@
-package edu.nytd.xww.message;
+package edu.nytd.xww.pojo;
 
 /**
  * @author Yanyu

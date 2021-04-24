@@ -1,8 +1,6 @@
 package edu.nytd.xww.gui.implement;
 
-import edu.nytd.xww.controller.implement.EventController;
-import edu.nytd.xww.gui.MainGui;
-import edu.nytd.xww.message.Message;
+import edu.nytd.xww.pojo.Message;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +9,7 @@ import java.awt.*;
  * @author Yanyu
  * 这是聊天框的 BorderLayout型 框架
  */
-public class BorderFrame extends JFrame implements MainGui {
+public class BorderFrame extends JFrame{
     /**
      * 默认宽 800像素   */
     private static final int DEFAULT_WIDTH = 800;
