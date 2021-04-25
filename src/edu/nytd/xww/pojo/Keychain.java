@@ -30,6 +30,11 @@ public class Keychain {
     private PublicKey publicKeyOfOpponent;
 
     /**
+     * 额外说明
+     */
+    private String msg;
+
+    /**
      * 钥匙串构造器
      * 可以给钥匙串挂上：对称加密的钥匙、自己的私钥、自己的公钥、对方的公钥。
      *
@@ -89,5 +94,13 @@ public class Keychain {
 
     public PublicKey getPublicKeyOfOpponent() {
         return publicKeyOfOpponent;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

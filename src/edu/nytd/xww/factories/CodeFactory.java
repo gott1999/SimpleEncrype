@@ -1,6 +1,7 @@
 package edu.nytd.xww.factories;
 
 import edu.nytd.xww.encryption.EncryptionMethod;
+import edu.nytd.xww.encryption.implement.DigitalSignature;
 import edu.nytd.xww.encryption.implement.SymmetricEncryption;
 import edu.nytd.xww.pojo.Keychain;
 import edu.nytd.xww.utils.Base64Encode;
@@ -63,13 +64,20 @@ public class CodeFactory {
      */
     public static final int EC = 2;
 
-    EncryptionMethod encryption;
+    /**
+     * 数字签名
+     * SHA1withRSA
+     */
+    public  static final int SHA1_WITH_RSA = 3;
+
+    private EncryptionMethod encryption;
 
     /**
      * 创建加密构造器
      * @param method 加密方法
-     *               DES,DES3,AES,RC4
-     *               RSA,DSA,DH,EC
+     *            1   DES,DES3,AES,RC4
+     *            2   RSA,DH,EC
+     *            3   DSA
      */
     public CodeFactory(int method){
         switch (method){
@@ -81,7 +89,10 @@ public class CodeFactory {
             case 2:
                 encryption = new AsymmetricEncryption();
                 break;
-
+            // 数字签名
+            case 3:
+                encryption = new DigitalSignature();
+                break;
             default:
                 try {
                     throw new NoSuchAlgorithmException("No Such Algorithm!");

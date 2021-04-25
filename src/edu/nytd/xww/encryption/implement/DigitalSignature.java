@@ -3,6 +3,7 @@ package edu.nytd.xww.encryption.implement;
 import edu.nytd.xww.encryption.EncryptionMethod;
 import edu.nytd.xww.pojo.Keychain;
 
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -40,8 +41,9 @@ public class DigitalSignature implements EncryptionMethod {
             PublicKey key = keyFactory.generatePublic(encodedKeySpec);
             Signature signature = Signature.getInstance("SHA1withRSA");
             signature.initVerify(key);
-            signature.update(code);
+            signature.update(keychain.getMsg().getBytes(StandardCharsets.UTF_8));
             verified = signature.verify(code);
+            return verified.toString().getBytes(StandardCharsets.UTF_8);
         }catch (Exception e){
             e.printStackTrace();
         }
