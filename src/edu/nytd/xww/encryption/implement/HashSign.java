@@ -47,22 +47,22 @@ public class HashSign{
     }
 
 
-    private static String sign(String code, String type) {
+    private static String sign(String code, String method) {
         try {
-            // 指定sha1算法
-            MessageDigest digest = MessageDigest.getInstance(type);
+            // 指定算法
+            MessageDigest digest = MessageDigest.getInstance(method);
             digest.update(code.getBytes());
             // 获取字节数组
             byte[] messageDigest = digest.digest();
             // Create Hex String
             StringBuilder hexString = new StringBuilder();
-            // 字节数组转换为 十六进制 数
+            // 字节数组转换为 十六进制
             for (byte b : messageDigest) {
-                String shaHex = Integer.toHexString(b & 0xFF);
-                if (shaHex.length() < 2) {
+                String Hex = Integer.toHexString(b & 0xFF);
+                if (Hex.length() < 2) {
                     hexString.append(0);
                 }
-                hexString.append(shaHex);
+                hexString.append(Hex);
             }
             return hexString.toString().toUpperCase();
         } catch (Exception e) {
@@ -70,5 +70,7 @@ public class HashSign{
         }
         return null;
     }
+
+
 
 }

@@ -42,19 +42,19 @@ public class Main {
 
     public static void main(String[] args) {
         // 待发送的消息
-        String msg = "Hello";
+        String msg = "HelloWorld";
         System.out.println("待发送的消息:" + msg);
         // 模拟发送方
         EXECUTOR.submit(() -> {
-            HASH_QUEUE.offer(HashSign.create(msg, "SHA256"));
+//            HASH_QUEUE.offer(HashSign.create(msg, "SHA256"));
             // 创建56位DES钥匙串 对称加密
-//            Keychain keychain = KeychainFactory.createKeychain(KeychainFactory.DES,56);
+            Keychain keychain = KeychainFactory.createKeychain(KeychainFactory.RC4,128);
             // 创建512位RSA钥匙串 非对称加密
-            Keychain keychain = KeychainFactory.createKeychain(KeychainFactory.RSA,512);
+//            Keychain keychain = KeychainFactory.createKeychain(KeychainFactory.RSA,512);
 
             // 加密工厂 明文->密文
-//            CodeFactory codeFactory = new CodeFactory(CodeFactory.DES);
-            CodeFactory codeFactory = new CodeFactory(CodeFactory.RSA);
+            CodeFactory codeFactory = new CodeFactory(CodeFactory.RC4);
+//            CodeFactory codeFactory = new CodeFactory(CodeFactory.RSA);
 //            CodeFactory codeFactory = new CodeFactory(CodeFactory.SHA1_WITH_RSA);
 
             String encode = codeFactory.encrypt(msg,keychain);
@@ -64,10 +64,10 @@ public class Main {
             assert keychain != null;
 
             // 放入钥匙 对称加密用
-//            KEY_QUEUE.offer(keychain.getKey());
+            KEY_QUEUE.offer(keychain.getKey());
 
             // 放入公钥 非对称加密用
-            PUBLIC_KEY_QUEUE.offer(keychain.getPublicKeyOfMine());
+//            PUBLIC_KEY_QUEUE.offer(keychain.getPublicKeyOfMine());
 
             // 发送密文
             STRING_QUEUE.offer(encode);
@@ -75,18 +75,17 @@ public class Main {
 
 
         // 模拟接受方
-
         EXECUTOR.submit(()->{
             Keychain keychain;
             String enCode;
             String deCode;
             // 约定的算法
-//            CodeFactory codeFactory = new CodeFactory(CodeFactory.DES);
-            CodeFactory codeFactory = new CodeFactory(CodeFactory.RSA);
+            CodeFactory codeFactory = new CodeFactory(CodeFactory.RC4);
+//            CodeFactory codeFactory = new CodeFactory(CodeFactory.RSA);
 //            CodeFactory codeFactory = new CodeFactory(CodeFactory.SHA1_WITH_RSA);
             // 接收方查询是否有消息,如果没有进入等待
-//            while (KEY_QUEUE.isEmpty() || STRING_QUEUE.isEmpty()){
-            while (PUBLIC_KEY_QUEUE.isEmpty() || STRING_QUEUE.isEmpty()){
+            while (KEY_QUEUE.isEmpty() || STRING_QUEUE.isEmpty()){
+//            while (PUBLIC_KEY_QUEUE.isEmpty() || STRING_QUEUE.isEmpty()){
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -94,9 +93,9 @@ public class Main {
                 }
             }
             // 根据获取的密钥 构成钥匙串 对称加密用
-//            keychain = new Keychain.Builder().setKey(KEY_QUEUE.poll()).build();
+            keychain = new Keychain.Builder().setKey(KEY_QUEUE.poll()).build();
             // 根据获取的公钥 构成钥匙串 非对称加密用
-            keychain = new Keychain.Builder().setPublicKeyOfOpponent(PUBLIC_KEY_QUEUE.poll()).build();
+//            keychain = new Keychain.Builder().setPublicKeyOfOpponent(PUBLIC_KEY_QUEUE.poll()).build();
             // 添加验证信息, 仅用于目前的验证
 //            keychain.setMsg(msg);
             // 获取密文
@@ -104,9 +103,12 @@ public class Main {
             // 进行解密
             assert enCode != null;
             deCode = codeFactory.decrypt(enCode,keychain);
-            System.out.println("Hash验证" + HASH_QUEUE.poll().equals(HashSign.create(deCode, "SHA256")));
-            System.out.println("验证结果:" + deCode);
+//            System.out.println("Hash验证" + HASH_QUEUE.poll().equals(HashSign.create(deCode, "SHA256")));
+            System.out.println("接收消息:" + deCode);
+            System.exit(0);
         });
 
     }
+
+
 }
