@@ -1,7 +1,4 @@
-- This is a encryption application for education.
-
-- All of you can use by legal.
-
-- There's question or advice? mail to 'gott1999@fomail.com' or 'yanyu.xww@qq.com'.
-
-p.s. "gott1999" and "yanyu" are both my name. That's a mistake.
+这是一个网络安全实验所做的简单的加密通讯软件，需要有人扮演CA，扮演收发方。
+main方法中只是用两个线程模拟通信双方。
+通过简单工厂模式和工厂模式产生对称和非对称密钥。
+UI界面非常简陋，甚至没做完（java做UI简直反人类嘛）。
